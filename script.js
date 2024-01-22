@@ -157,6 +157,12 @@ class HashMap {
         return hashCode;
       }
 
+    clear(){
+      this.buckets = new Array(16)
+      this.fill = 0
+      this.maxSize = 16
+    }
+
     gather(oldData){
       console.log(oldData)
       let key = oldData.key
@@ -178,6 +184,78 @@ class HashMap {
         return this.gather(oldData.next)
       }
     }
+
+    keys(){
+      let length = this.maxSize
+      const buckets = this.buckets
+      let keyArray = new Array()
+      for(let i = 0; i < length; i++){
+        if(buckets[i] == null){
+        }
+        else {
+        let addTooArray = this.harvest(buckets[i],"key",keyArray)
+        console.log(addTooArray)
+        }   
+    }
+   return keyArray  
+  }
+
+  values(){
+    let length = this.maxSize
+    const buckets = this.buckets
+    let valueArray = new Array()
+    for(let i = 0; i < length; i++){
+      if(buckets[i] == null){
+      }
+      else {
+      let addTooArray = this.harvest(buckets[i],"value",valueArray)
+      console.log(addTooArray)
+      }   
+  }
+ return valueArray  
+}
+
+    harvest(target,type,arr=[]){
+      let next = target.next
+      let addTooArray = target[type]
+      console.log(addTooArray)
+      arr.push(addTooArray)
+      if(next == null){ 
+      return arr
+      }  
+      else return this.harvest(next,type, arr)
+    }
+
+    entries(){
+      let length = this.maxSize
+      const buckets = this.buckets
+      let keyPairArray = new Array()
+      for(let i = 0; i < length; i++){
+        if(buckets[i] == null){
+        }
+        else {
+        let addTooArray = this.harvestKeyPair(buckets[i],keyPairArray)
+        console.log(addTooArray)
+        }   
+    }
+   return keyPairArray 
+  }
+    
+  harvestKeyPair(target,arr=[]){
+    let next = target.next
+    let key = target.key
+    let value =target.value
+    let newArr = [key,value ]
+    
+    console.log(newArr)
+    arr.push(newArr)
+    if(next == null){ 
+    return arr
+    }  
+    else return this.harvestKeyPair(next, arr)
+  }
+
+
 
 }
 
@@ -208,12 +286,10 @@ hashMap.set("Egg Rolls", "food")
 hashMap.set("Bacon", "food")
 hashMap.set("Crackers", "food")
 hashMap.set("Potato", "food")
-console.log(hashMap.get("burrito"))
 
-console.log(hashMap.has("gotdog"))
-console.log(hashMap.remove("hotdog"))
 console.log(hashMap)
-console.log(hashMap.length())
+console.log(hashMap.entries())
+
 
 
 
